@@ -1,1 +1,106 @@
-サーバー構築をやる
+LUKSパーティション crypsetupコマンド
+LUKS（Linux Unified Key Setup）は、Linuxでディスク全体の暗号化を行うための標準的な暗号化形式
+LUKSパーティションは、通常のファイルシステムの上に存在する暗号化されたコンテナのようなもの
+複数のユーザーが異なるパスフレーズで同じパーティションにアクセスすることができます
+
+/proc/mdstat
+
+このファイルシステムで使用していない領域を破棄したい
+
+"/dev/nst0"に対し、tarコマンド
+
+hosts.denyとhosts.allowの優先度
+
+tcpdump
+tcpdumpはネットワークインターフェイスからのデータを生で読み取るため、管理者権限（sudo）が必要です。
+
+
+modprobe
+ブラックリスト
+特定のモジュールが自動的にロードされるのを防ぎたい場合は、ブラックリストに登録することができます。これには、/etc/modprobe.d/ディレクトリ内にブラックリストファイルを作成します。
+
+
+lost+found
+
+rsync
+
+smartd
+smartd は、SMART (Self-Monitoring, Analysis, and Reporting Technology) を使用してハードディスクドライブ (HDD) やソリッドステートドライブ (SSD) の健康状態を監視するためのデーモンです。smartd は smartmontools パッケージの一部で、ディスクの障害を予測し、早期に警告を発することができます。
+
+論理ボリュームを作成してマウントの手順
+
+efiadmin
+
+アクセスのたびに先頭への巻き戻しが発生しないテープデバイス
+
+ISO9660ファイルシステムを作成
+mkisofsとgenisoimageは、ISO 9660形式のCD/DVDイメージファイルを作成するためのコマンドラインツールです。これらのツールを使うと、ディスクに書き込む前にディレクトリやファイルの集まりをISOファイルに変換できます。
+mkisofs -o output.iso /path/to/directory
+
+
+sysctlコマンド
+sysctlコマンドによって変更されるのは、Linuxカーネルのランタイム設定で、これらの設定は通常、/proc/sysディレクトリに格納されています。このディレクトリは、カーネルのさまざまなパラメータをファイルシステムとして公開しており、sysctlコマンドを使ってこれらの設定を確認・変更できます。
+永続的な設定
+sysctlコマンドで設定した変更は、通常、再起動すると元に戻ります。変更を永続化するには、設定を/etc/sysctl.confファイルや/etc/sysctl.d/ディレクトリに保存します。
+
+
+システムの起動時にルート(/)ファイルシステムをマウントできない
+ルートファイルシステムがマウントできないと、カーネルは必要なシステムファイルやディレクトリ（例：/bin, /sbin, /etc, /libなど）にアクセスできません。これにより、システムのブートプロセスが停止し、通常は「カーネルパニック」と呼ばれる状態になります。カーネルパニックが発生すると、システムは動作を継続できず、ユーザーの介入が必要になります。
+多くのLinuxディストリビューションでは、ルートファイルシステムのマウントに失敗した場合、initramfsやinitrdと呼ばれる緊急シェルが起動します。
+
+arp
+
+dd mkswap swapon
+
+makeコマンド 読み込まれるファイル
+
+sar sadc
+
+/usr/src/linux/
+
+udevadm monitorコマンド
+
+モジュールも一緒にインストール makeコマンドのターゲット
+
+tcpwrapper
+
+
+
+/lib/systemd/systemディレクトリは、Linuxシステムでsystemdに関連するユニットファイルが格納される場所です。
+優先順位: systemdは、まずこのディレクトリにあるユニットファイルを参照し、それをベースにシステムを構成しますが、ユーザーがカスタマイズしたユニットファイルが/etc/systemd/systemに配置されている場合は、それが優先されます。
+カスタマイズが必要な場合は、ユニットファイルを/etc/systemd/systemにコピーし、そこで変更を行うべきです。
+
+uptime
+1.00 が理論的にCPUコア数に対して適切な負荷を表します。例えば、シングルコアのシステムでの1.00は、CPUがフル稼働している状態です。
+実用例
+システムがどれくらい稼働しているかを確認したい場合に便利です。例えば、サーバーが長時間稼働しているか、再起動が行われたのかを確認するために使います。
+
+
+
+システムの応答が遅いので、topコマンドを実行した結果、idle(id)の値が非常に高い
+I/O待ちや他のリソースに依存したボトルネック:
+
+システムが応答が遅い原因として、CPUがボトルネックではなく、ディスクI/O、ネットワーク、メモリスワップなど、他のリソースがボトルネックになっている可能性があります。特に、ディスクI/Oが遅い場合や、メモリ不足によるスワップが多発している場合、CPUは仕事がなくなり、アイドル状態が増えることがあります。
+iostatやvmstat
+freeコマンドやtopコマンドのMEMセクションで、メモリ使用状況を確認
+
+maxcpus
+GRUB_CMDLINE_LINUXエントリの編集:
+GRUB_CMDLINE_LINUX行にmaxcpusオプションを追加します。例えば、最大2つのCPUコアを使用するように設定する場合は、次のようにします。
+
+cifsiostat nfsiostat
+これらのツールは、通常は追加のパッケージとして提供されていることが多いです。例えば、nfs-utilsパッケージにはnfsiostatが含まれている場合があります。cifsiostatは、cifs-utilsパッケージに含まれていることがあります。
+
+
+カーネルの設定ファイルの一般的な名前は、config-<kernel-version> です。
+その他の関連ファイル
+vmlinuz-<kernel-version>: 圧縮されたカーネルイメージ。
+initramfs-<kernel-version>.img: 初期 RAM ディスクイメージ。
+System.map-<kernel-version>: シンボルのマップファイル。
+
+/dev/sda0をフォーマット(データを消去)したい。
+lsblk sudo fdisk /dev/sda sudo mkfs.ext4 /dev/sda sudo blkid
+
+sudo grub-install /dev/sda
+sudo update-grub
+sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
