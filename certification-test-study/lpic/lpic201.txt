@@ -23,6 +23,10 @@ modprobe
 lost+found
 
 rsync
+rsync -avz -e ssh /path/to/source/ user@remote_host:/path/to/destination/
+robocopy は主にローカルディスクやネットワーク共有ディレクトリでのファイルコピーに使用されます。ネットワーク越しのコピーも可能ですが、SSHのようなセキュアなプロトコルはサポートされていません。
+rsync は、圧縮転送、バンド幅制限、排他的な排他オプション（例えば、--delete で同期元にないファイルを削除する）など、非常に多くのオプションを提供します。
+
 
 smartd
 smartd は、SMART (Self-Monitoring, Analysis, and Reporting Technology) を使用してハードディスクドライブ (HDD) やソリッドステートドライブ (SSD) の健康状態を監視するためのデーモンです。smartd は smartmontools パッケージの一部で、ディスクの障害を予測し、早期に警告を発することができます。
@@ -51,6 +55,13 @@ sysctlコマンドで設定した変更は、通常、再起動すると元に�
 arp
 
 dd mkswap swapon
+sudo dd if=/dev/zero of=/swapfile bs=1M count=1024
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+sudo nano /etc/fstab
+/swapfile none swap sw 0 0
+
 
 makeコマンド 読み込まれるファイル
 
@@ -59,6 +70,8 @@ sar sadc
 /usr/src/linux/
 
 udevadm monitorコマンド
+デバイスのトラブルシューティング: 新しいデバイスがシステムに認識されない場合、udevadm monitor で発生するイベントを確認することで問題の原因を特定できます。
+
 
 モジュールも一緒にインストール makeコマンドのターゲット
 
@@ -104,3 +117,16 @@ lsblk sudo fdisk /dev/sda sudo mkfs.ext4 /dev/sda sudo blkid
 sudo grub-install /dev/sda
 sudo update-grub
 sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub
+
+ISO 9660
+概要: ISO 9660は、CD-ROM上にファイルやディレクトリを格納するための国際標準規格です。1988年に国際標準化機構（ISO）によって定められました。
+互換性: ISO 9660は、様々なオペレーティングシステム（Windows、macOS、Linux、UNIXなど）で読み取ることができるよう設計されています。そのため、異なるシステム間でデータを共有するのに適しています。
+ファイル名の制限: オリジナルのISO 9660では、ファイル名は8文字、拡張子は3文字に制限されます（いわゆる「8.3形式」）。また、大文字のみが使用可能で、サブディレクトリの深さも8階層までに制限されます。
+
+/etc/nsswitch.conf ファイルは、システムがどのソースから情報を取得するかを指定する重要な設定ファイルです。
+nsswitch.conf の ns は、Name Service の略です。このファイルは、名前解決サービス（Name Service Switch）を管理するための設定ファイルです。具体的には、システムが名前解決や情報取得を行う際に使用するサービスやその順序を指定します。
+
+Name Service: 名前解決やシステム情報の取得を担当するサービスのことを指します。例えば、ユーザーアカウント情報、グループ情報、ホスト名の解決などが含まれます。
+
+Switch: どのサービスを使うかを「切り替える」機能を指します。設定により、システムが情報をどのサービスから取得するかを選択します。
+
